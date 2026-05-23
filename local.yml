@@ -1,0 +1,24 @@
+---
+- name: Tự động cài đặt và cấu hình Nginx
+  hosts: localhost
+  connection: local
+  become: yes # Chạy với quyền root
+  tasks:
+    - name: Đảm bảo Nginx đã được cài đặt
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Đảm bảo Nginx đang chạy và tự bật khi khởi động
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Tạo trang web custom để demo
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <h1>Triển khai thành công Ansible Pull!</h1>
+          <p>Trạng thái: Zero Configuration.</p>
